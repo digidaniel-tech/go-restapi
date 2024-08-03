@@ -2,11 +2,11 @@ package usecases
 
 import "github.com/digidaniel-tech/go-restapi/internal/models"
 
-func GetProduct(id string) models.Product {
-	return models.Product{ID: 1, Name: "Product 1", Price: 1.00}
+func GetProduct(id string) (models.Product, error) {
+	return models.Product{ID: 1, Name: "Product 1", Price: 1.00}, nil
 }
 
-func GetProducts() []models.Product {
+func GetProducts() ([]models.Product, error) {
 	category := models.Category{ID: 1, Name: "Root"}
 
 	productList := []models.Product{
@@ -15,5 +15,5 @@ func GetProducts() []models.Product {
 		{ID: 3, Name: "Product 3", Price: 3.00, Category: category},
 	}
 
-	return productList
+	return productList, nil
 }

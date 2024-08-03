@@ -1,6 +1,9 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 type Controller interface {
 	Post()
@@ -11,6 +14,10 @@ type Controller interface {
 
 type BaseController struct{}
 
-func (baseController *BaseController) SendResponse(context *gin.Context, status int, content any) {
-	context.JSON(status, content)
+func (baseController *BaseController) SendError(w http.ResponseWriter, error string, status int) {
+	http.Error(w, error, status)
+}
+
+func (baseController *BaseController) SendResponse(w http.ResponseWriter, content any) {
+	json.NewEncoder(w).Encode(content)
 }

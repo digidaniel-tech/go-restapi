@@ -1,30 +1,34 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 type Router struct {
-	engine *gin.Engine
+	router *mux.Router
 }
 
 func CreateRouter() *Router {
 	return &Router{
-		engine: gin.Default(),
+		router: mux.NewRouter(),
 	}
 }
 
-func (r *Router) GetEngine() *gin.Engine {
-	return r.engine
+func (r *Router) GetEngine() *mux.Router {
+	return r.router
 }
 
-func (r *Router) SetupRoute(method, path string, handler gin.HandlerFunc) {
+func (r *Router) SetupRoute(method, path string, handler http.Handler) {
 	switch method {
 	case "GET":
-		r.engine.GET(path, handler)
+		r.router.Handle(path, handler).Methods("GET")
 	case "POST":
-		r.engine.POST(path, handler)
+		r.router.Handle(path, handler).Methods("POST")
 	case "PUT":
-		r.engine.PUT(path, handler)
+		r.router.Handle(path, handler).Methods("PUT")
 	case "DELETE":
-		r.engine.DELETE(path, handler)
+		r.router.Handle(path, handler).Methods("DELETE")
 	}
 }
